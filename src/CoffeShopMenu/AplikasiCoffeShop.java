@@ -25,7 +25,22 @@ public class AplikasiCoffeShop {
         this.scanner = new Scanner(System.in);
         this.katalog = new KatalogMenu();
         this.daftarPesanan = new ArrayList<>();
+        DataAwal();
     }
+
+    private void DataAwal() {
+        // Makanan
+        katalog.tambahMakanan(new MakananBerat(
+                "Nasi Goreng Spesial", 28000, "Gurih", "Sedang", "sedang", "Telur dan ayam"));
+        katalog.tambahMakanan(new MakananRingan(
+                "Roti Bakar", 18000, "Manis", "Kecil", "Cokelat keju"));
+
+        // Minuman
+        katalog.tambahMinuman(new MinumanCoffee(
+                "Caffe Latte", 25000, 'M', "panas", "normal"));
+        katalog.tambahMinuman(new MinumanNonCoffee(
+                "Lemon Soda", 20000, 'L', "dingin", true));
+}
 
     /**
      * Titik masuk program: menampilkan menu login berulang sampai pengguna keluar.
@@ -358,7 +373,20 @@ public class AplikasiCoffeShop {
         double harga = InputHelper.bacaHarga(scanner, "Harga: ");
         String rasa = InputHelper.bacaTeks(scanner, "Kategori rasa: ");
         String porsi = InputHelper.bacaTeks(scanner, "Porsi: ");
-        return new Makanan(nama, harga, rasa, porsi);
+    
+        System.out.println("Jenis makanan:");
+        System.out.println("1. Makanan berat");
+        System.out.println("2. Makanan ringan");
+        int jenis = InputHelper.bacaInt(scanner, "Pilih: ", 1, 2);
+    
+        if (jenis == 1) {
+            String pedas = InputHelper.bacaTeks(scanner, "Tingkat pedas (tidak/sedang/pedas): ");
+            String lauk = InputHelper.bacaTeks(scanner, "Jenis lauk: ");
+            return new MakananBerat(nama, harga, rasa, porsi, pedas, lauk);
+        }
+    
+        String topping = InputHelper.bacaTeks(scanner, "Topping: ");
+        return new MakananRingan(nama, harga, rasa, porsi, topping);
     }
 
     private Minuman buatMinumanDariInput() {
